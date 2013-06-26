@@ -4,30 +4,22 @@
 #
 
 module Essence
-
-	#
-	#
-	#
-
-	class Provider
+	module Provider
 
 		#
 		#
 		#
 
-		def initialize( options = [ ])
-			@options = @defaults.merge( options )
+		class OpenGraph
+
+			#
+			#
+			#
+
+			def initialize( options = [ ])
+				@options = @defaults.merge( options )
+			end
 		end
 
-
-
-		#
-		#
-		#
-
-		def can_embed?( url )
-			true
-		end
-	end
-
+	end # Provider
 end # Essence

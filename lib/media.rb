@@ -1,101 +1,114 @@
 #
+#	AUTHOR Félix Girault <felix.girault@gmail.com>
+#	LICENCE FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
+#
+
 module Essence
 
-
-
-#
-class Media
-
 	#
-	def initialize( properties = [ ])
+	#
+	#
 
-		@properties = {
-			# OEmbed type
-			# OG type
-			'type' => '',
+	class Media
 
-			# OEmbed version
-			'version' => '',
+		#
+		#
+		#
 
-			# OEmbed title
-			# OG title
-			'title' => '',
+		def initialize( properties = [ ])
+			@properties = {
+				# OEmbed type
+				# OG type
+				'type' => '',
 
-			# Sometimes provided in OEmbed (i.e. Vimeo)
-			# OG description
-			'description' => '',
+				# OEmbed version
+				'version' => '',
 
-			# OEmbed author_name
-			'authorName' => '',
+				# OEmbed title
+				# OG title
+				'title' => '',
 
-			# OEmbed author_url
-			'authorUrl' => '',
+				# Sometimes provided in OEmbed (i.e. Vimeo)
+				# OG description
+				'description' => '',
 
-			# OEmbed provider_name
-			# OG site_name
-			'providerName' => '',
+				# OEmbed author_name
+				'authorName' => '',
 
-			# OEmbed provider_url
-			'providerUrl' => '',
+				# OEmbed author_url
+				'authorUrl' => '',
 
-			# OEmbed cache_age
-			'cacheAge' => '',
+				# OEmbed provider_name
+				# OG site_name
+				'providerName' => '',
 
-			# OEmbed thumbnail_url
-			# OG image
-			# OG image:url
-			'thumbnailUrl' => '',
+				# OEmbed provider_url
+				'providerUrl' => '',
 
-			# OEmbed thumbnail_width
-			'thumbnailWidth' => '',
+				# OEmbed cache_age
+				'cacheAge' => '',
 
-			# OEmbed thumbnail_height
-			'thumbnailHeight' => '',
+				# OEmbed thumbnail_url
+				# OG image
+				# OG image:url
+				'thumbnailUrl' => '',
 
-			# OEmbed html
-			'html' => '',
+				# OEmbed thumbnail_width
+				'thumbnailWidth' => '',
 
-			# OEmbed width
-			# OG image:width
-			# OG video:width
-			'width' => '',
+				# OEmbed thumbnail_height
+				'thumbnailHeight' => '',
 
-			# OEmbed height
-			# OG image:height
-			# OG video:height
-			'height' => '',
+				# OEmbed html
+				'html' => '',
 
-			# OEmbed url
-			# OG url
-			'url' => ''
-		}
+				# OEmbed width
+				# OG image:width
+				# OG video:width
+				'width' => '',
 
-		@properties.merge( options )
+				# OEmbed height
+				# OG image:height
+				# OG video:height
+				'height' => '',
+
+				# OEmbed url
+				# OG url
+				'url' => ''
+			}
+
+			@properties.merge( options )
+		end
+
+
+
+		#
+		#
+		#
+
+		def has?( property )
+			@properties.has_key?( property )
+		end
+
+
+
+		#
+		#
+		#
+
+		def get( property, default = '' )
+			@properties.fetch( property, default )
+		end
+
+
+
+		#
+		#
+		#
+
+		def set( property, value )
+			@properties[ property ] = value;
+		end
 	end
 
-
-
-	#
-	def has( property )
-
-		@properties.has_key?( property )
-	end
-
-
-
-	#
-	def get( property, default = '' )
-
-		@properties.fetch( property, default )
-	end
-
-
-
-	#
-	def set( property, value )
-
-		@properties[ property ] = value;
-	end
-end
-
-end # module
+end # Essence
