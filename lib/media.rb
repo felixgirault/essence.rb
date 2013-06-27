@@ -16,6 +16,7 @@ module Essence
 		#
 
 		def initialize( properties = [ ])
+
 			@properties = {
 				# OEmbed type
 				# OG type
@@ -87,6 +88,7 @@ module Essence
 		#
 
 		def has?( property )
+
 			@properties.has_key?( property )
 		end
 
@@ -97,6 +99,7 @@ module Essence
 		#
 
 		def get( property, default = '' )
+
 			@properties.fetch( property, default )
 		end
 
@@ -107,7 +110,8 @@ module Essence
 		#
 
 		def set( property, value )
-			@properties[ property ] = value;
+
+			@properties[ property ] = value
 		end
 	end
 

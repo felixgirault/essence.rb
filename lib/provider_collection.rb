@@ -16,9 +16,10 @@ module Essence
 		#
 
 		def initialize( providers = [ ])
+
 			@providers = [ ]
 
-			load( providers )
+			self.load( providers )
 		end
 
 
@@ -28,6 +29,7 @@ module Essence
 		#
 
 		def load( providers = [ ])
+
 			Dir[ ].each do |file|
 				require File.basename( file )
 			end
@@ -40,6 +42,7 @@ module Essence
 		#
 
 		def has_provider?( url )
+
 			@providers.find do |provider|
 				provider.can_embed?( url )
 			end

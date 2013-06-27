@@ -18,6 +18,7 @@ module Essence
 		#
 
 		def initialize( providers = [ ])
+
 			@collection = ProviderCollection.new( providers )
 		end
 
@@ -30,21 +31,22 @@ module Essence
 		#
 
 		def extract( source )
+
 			if ( url =~ URI::regexp )
 				return [ source ] if @collection.has_provider?( source )
 				source = HTTP.get( URI( source ))
 			end
 
-			urls = self._extract_urls( source );
-			embeddable = [ ];
+			urls = self._extract_urls( source )
+			embeddable = [ ]
 
 			urls.each do |url|
 				if ( @collection.has_provider?( url ))
-					embeddable.push( url ) unless embeddable.include?( url );
+					embeddable.push( url ) unless embeddable.include?( url )
 				end
 			end
 
-			embeddable;
+			embeddable
 		end
 
 
@@ -58,6 +60,7 @@ module Essence
 		#
 
 		def embed( url, options = [ ])
+
 			providers = @collection.providers( url )
 			media = nil
 
@@ -81,6 +84,7 @@ module Essence
 		#
 
 		def embed_all( urls, options = [ ])
+
 			medias = [ ]
 
 			urls.each do |url|
@@ -104,16 +108,22 @@ module Essence
 		#		<div>%html%</div>
 		#	</div>
 		#	By default, links will be replaced by the html property of Media.
-		#	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for his
-		#	idea (https://github.com/felixgirault/essence/issues/4).
+		#	Thanks to Stefano Zoffoli (https://github.com/stefanozoffoli) for
+		#	his idea (https://github.com/felixgirault/essence/issues/4).
 		#
 
 		def replace( text, template = '', options = [ ])
-			link_pattern = /(\s)(([\w-]+:\/\/?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/)))/
+
+			link_pattern = /(?<lead>.)?(?<url>(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))/
 			symbol_pattern = /%([\s\S]+?)%/
 
-			text.gsub( link_pattern ) do |link|
-				media = self.embed( link, options )
+			text.gsub( link_pattern ) do |matches|
+
+				if ( matches[:lead] === '"' ) {
+					return matches.to_s
+				}
+
+				media = self.embed( matches[:url], options )
 				replacement = ''
 
 				if ( media.is_a?( Media ))
@@ -130,37 +140,27 @@ module Essence
 			end
 		end
 
-
-
-		protected
-
-
+	protected
 
 		#
 		#	Extracts URLs from an HTML source.
 		#
 
 		def _extract_urls( html )
-			urls = [ ];
-			attributes = Registry.get( 'dom' ).extract_attributes(
-				html,
-				{
-					'a' => 'href',
-					'embed' => 'src',
-					'iframe' => 'src'
-				}
-			);
 
-			attributes['a'].each do |a|
-				urls.push( a['href'])
-			end
+			options = {
+				'a' => 'href',
+				'embed' => 'src',
+				'iframe' => 'src'
+			}
 
-			attributes['embed'].each do |embed|
-				urls.push( embed['src'])
-			end
+			attributes = Registry.get( 'dom' ).extract_attributes( html, options )
+			urls = [ ]
 
-			attributes['iframe'].each do |iframe|
-				urls.push( iframe['src'])
+			options.each do |tag_name, attribute_name|
+				attributes[ tag_name ].each do |_, tag|
+					urls.push( tag[ attribute_name ])
+				end
 			end
 
 			urls

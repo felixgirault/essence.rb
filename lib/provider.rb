@@ -16,6 +16,7 @@ module Essence
 		#
 
 		def initialize( options = [ ])
+
 			@options = @defaults.merge( options )
 		end
 
@@ -26,6 +27,7 @@ module Essence
 		#
 
 		def can_embed?( url )
+
 			true
 		end
 	end
