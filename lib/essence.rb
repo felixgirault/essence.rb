@@ -17,9 +17,15 @@ module Essence
 		#	A collection of providers to query.
 		#
 
-		def initialize( providers = [ ])
+		def initialize( providers = [ ], options = { })
 
 			@collection = ProviderCollection.new( providers )
+			@options = {
+				:link_pattern => /(?<lead>.)?(?<url>(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))/,
+				:symbol_pattern => /%([\s\S]+?)%/
+			}
+
+			@options.merge( options )
 		end
 
 
@@ -114,11 +120,7 @@ module Essence
 
 		def replace( text, template = '', options = [ ])
 
-			link_pattern = /(?<lead>.)?(?<url>(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))/
-			symbol_pattern = /%([\s\S]+?)%/
-
-			text.gsub( link_pattern ) do |matches|
-
+			text.gsub( @options[:link_pattern]) do |matches|
 				if ( matches[:lead] === '"' ) {
 					return matches.to_s
 				}
@@ -130,7 +132,7 @@ module Essence
 					if ( template.empty? )
 						replacement = media.get( 'html' )
 					else
-						replacement = template.gsub( symbol_pattern ) do |symbol|
+						replacement = template.gsub( @options[:symbol_pattern]) do |symbol|
 							media.get( symbol )
 						end
 					end

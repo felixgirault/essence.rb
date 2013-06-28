@@ -4,23 +4,21 @@
 #
 
 module Essence
-	module Provider
+
+	#
+	#
+	#
+
+	class DOMParser
 
 		#
 		#
 		#
 
-		class OpenGraph
+		def extract_attributes( options = [ ])
 
-			#
-			#
-			#
-
-			def initialize( options = [ ])
-
-				@options = @defaults.merge( options )
-			end
+			raise NotImplementedError.new
 		end
+	end
 
-	end # Provider
 end # Essence
