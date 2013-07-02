@@ -21,8 +21,8 @@ module Essence
 
 			@collection = ProviderCollection.new( providers )
 			@options = {
-				:link_pattern => /(?<lead>.)?(?<url>(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))/,
-				:symbol_pattern => /%([\s\S]+?)%/
+				:url_pattern => /(?<url>(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))/,
+				:property_pattern => /%(?<property>[\s\S]+?)%/
 			}
 
 			@options.merge( options )
@@ -120,20 +120,16 @@ module Essence
 
 		def replace( text, template = '', options = [ ])
 
-			text.gsub( @options[:link_pattern]) do |matches|
-				if ( matches[:lead] === '"' ) {
-					return matches.to_s
-				}
-
-				media = self.embed( matches[:url], options )
+			text.gsub( @options[ :url_pattern ]) do |matches|
+				media = self.embed( matches[ :url ], options )
 				replacement = ''
 
 				if ( media.is_a?( Media ))
 					if ( template.empty? )
 						replacement = media.get( 'html' )
 					else
-						replacement = template.gsub( @options[:symbol_pattern]) do |symbol|
-							media.get( symbol )
+						replacement = template.gsub( @options[ :property_pattern ]) do |matches|
+							media.get( matches[ :property ])
 						end
 					end
 				end
