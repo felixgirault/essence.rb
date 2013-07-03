@@ -15,7 +15,7 @@ module Essence
 		#
 		#
 
-		def extract_attributes( options = [ ])
+		def extract_attributes( options = { })
 
 			raise NotImplementedError.new
 		end

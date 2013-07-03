@@ -76,9 +76,8 @@ module Essence
 				# OEmbed url
 				# OG url
 				'url' => ''
-			}
 
-			@properties.merge( options )
+			}.merge( properties )
 		end
 
 

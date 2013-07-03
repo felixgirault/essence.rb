@@ -17,7 +17,7 @@ module Essence
 		#	A collection of providers to query.
 		#
 
-		def initialize( providers = [ ], options = { })
+		def initialize( providers = { }, options = { })
 
 			@collection = ProviderCollection.new( providers )
 			@options = {
@@ -38,21 +38,24 @@ module Essence
 
 		def extract( source )
 
-			if ( url =~ URI::regexp )
-				return [ source ] if @collection.has_provider?( source )
-				source = HTTP.get( URI( source ))
-			end
-
-			urls = self._extract_urls( source )
-			embeddable = [ ]
-
-			urls.each do |url|
-				if ( @collection.has_provider?( url ))
-					embeddable.push( url ) unless embeddable.include?( url )
+			@extract ||= { }
+			@extract[ local_variables ] ||= (
+				if ( url =~ URI::regexp )
+					return [ source ] if @collection.has_provider?( source )
+					source = HTTP.get( URI( source ))
 				end
-			end
 
-			embeddable
+				urls = self._extract_urls( source )
+				embeddable = [ ]
+
+				urls.each do |url|
+					if ( @collection.has_provider?( url ))
+						embeddable.push( url ) unless embeddable.include?( url )
+					end
+				end
+
+				embeddable
+			)
 		end
 
 
@@ -67,20 +70,19 @@ module Essence
 
 		def embed( url, options = [ ])
 
-			providers = @collection.providers( url )
-			media = nil
+			@embed ||= { }
+			@embed[ local_variables ] ||= (
+				providers = @collection.providers( url )
+				media = nil
 
-			providers.each do |provider|
-				begin
-					media = provider.embed( url, options )
-				rescue Exception
-
+				providers.each do |provider|
+					if ( media = provider.embed( url, options ))
+						break;
+					end
 				end
 
-				break if media.is_a?( Media )
-			end
-
-			media
+				media
+			)
 		end
 
 

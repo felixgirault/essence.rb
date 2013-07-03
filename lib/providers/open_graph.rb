@@ -4,23 +4,23 @@
 #
 
 module Essence
-	module Provider
+module Provider
+
+	#
+	#
+	#
+
+	class OpenGraph < Provider
 
 		#
 		#
 		#
 
-		class OpenGraph
+		def initialize( options = [ ])
 
-			#
-			#
-			#
-
-			def initialize( options = [ ])
-
-				@options = @defaults.merge( options )
-			end
+			@options.merge( options )
 		end
+	end
 
-	end # Provider
+end # Provider
 end # Essence

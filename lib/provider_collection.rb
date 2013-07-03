@@ -15,24 +15,11 @@ module Essence
 		#
 		#
 
-		def initialize( providers = [ ])
+		def initialize( providers = { })
 
-			@providers = [ ]
+			@providers = {
 
-			self.load( providers )
-		end
-
-
-
-		#
-		#
-		#
-
-		def load( providers = [ ])
-
-			Dir[ ].each do |file|
-				require File.basename( file )
-			end
+			}.merge( providers )
 		end
 
 
@@ -43,9 +30,6 @@ module Essence
 
 		def has_provider?( url )
 
-			@providers.find do |provider|
-				provider.can_embed?( url )
-			end
 		end
 	end
 

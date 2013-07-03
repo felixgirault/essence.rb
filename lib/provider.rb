@@ -15,9 +15,9 @@ module Essence
 		#
 		#
 
-		def initialize( options = [ ])
+		def initialize( options = { })
 
-			@options = @defaults.merge( options )
+			@options = options
 		end
 
 
@@ -26,9 +26,38 @@ module Essence
 		#
 		#
 
-		def can_embed?( url )
+		def embed( url, options = { }) {
 
-			true
+			url = self._prepare( url )
+			media = self._embed( url, options )
+
+			if ( media && !media.get( 'url' )) {
+				media->set( 'url', url )
+			}
+
+			media
+		end
+
+	protected
+
+		#
+		#
+		#
+
+		def _prepare( url ) {
+
+			url.strip( )
+		end
+
+
+
+		#
+		#
+		#
+
+		def embed( url, options )
+
+			raise NotImplementedError.new
 		end
 	end
 
