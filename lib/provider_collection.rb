@@ -12,24 +12,82 @@ module Essence
 	class ProviderCollection
 
 		#
+		#	Loads the given providers.
 		#
-		#
 
-		def initialize( providers = { })
+		def initialize( config = { })
 
-			@providers = {
-
-			}.merge( providers )
+			@providers = { }
+			@config = {
+				'Dailymotion' => {
+					:class => 'OEmbed::Dailymotion',
+					:pattern => /dailymotion\.com/i,
+					:endpoint => 'http://www.dailymotion.com/services/oembed?format=json&url=%s',
+					:format => 'json'
+				},
+				'Vimeo' => {
+					:class => 'OEmbed::Vimeo',
+					:pattern => /vimeo\.com/i,
+					:endpoint => 'http://vimeo.com/api/oembed.json?url=%s',
+					:format => 'json'
+				},
+				'Youtube' => {
+					:class => 'OEmbed',
+					:pattern => /youtube\.com|youtu\.be/i,
+					:endpoint => 'http://www.youtube.com/oembed?format=json&url=%s',
+					:format => 'json'
+				},
+			}.merge( config )
 		end
 
 
 
 		#
-		#
+		#	Tells if a provider was found for the given url.
 		#
 
 		def has_provider?( url )
 
+			@config.each do |options|
+				if ( url =~ options[ :pattern ])
+					return true
+				end
+			end
+
+			false
+		end
+
+
+
+		#
+		#	Finds providers of the given url.
+		#
+
+		def providers( url )
+
+			providers = [ ]
+
+			@config.each do |name, options|
+				if ( url =~ options[ :pattern ])
+					providers.push( self._provider( name, options ))
+				end
+			end
+
+			providers
+		end
+
+
+
+		#
+		#	Lazy loads a provider given its name and configuration.
+		#
+
+		def _provider( name, options )
+
+			@providers ||= { }
+			@providers[ name ] ||= (
+				Object::const_get( name ).new
+			)
 		end
 	end
 
