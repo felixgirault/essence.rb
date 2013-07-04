@@ -40,6 +40,7 @@ module Essence
 
 			@extract ||= { }
 			@extract[ local_variables ] ||= (
+
 				if ( url =~ URI::regexp )
 					return [ source ] if @collection.has_provider?( source )
 					source = HTTP.get( URI( source ))
@@ -48,7 +49,7 @@ module Essence
 				urls = self._extract_urls( source )
 				embeddable = [ ]
 
-				urls.each do |url|
+				urls.each do | url |
 					if ( @collection.has_provider?( url ))
 						embeddable.push( url ) unless embeddable.include?( url )
 					end
@@ -72,10 +73,11 @@ module Essence
 
 			@embed ||= { }
 			@embed[ local_variables ] ||= (
+
 				providers = @collection.providers( url )
 				media = nil
 
-				providers.each do |provider|
+				providers.each do | provider |
 					if ( media = provider.embed( url, options ))
 						break;
 					end
@@ -122,7 +124,7 @@ module Essence
 
 		def replace( text, template = '', options = [ ])
 
-			text.gsub( @options[ :url_pattern ]) do |matches|
+			text.gsub( @options[ :url_pattern ]) do | matches |
 				media = self.embed( matches[ :url ], options )
 				replacement = ''
 
@@ -130,7 +132,7 @@ module Essence
 					if ( template.empty? )
 						replacement = media.get( 'html' )
 					else
-						replacement = template.gsub( @options[ :property_pattern ]) do |matches|
+						replacement = template.gsub( @options[ :property_pattern ]) do | matches |
 							media.get( matches[ :property ])
 						end
 					end
@@ -154,11 +156,11 @@ module Essence
 				'iframe' => 'src'
 			}
 
-			attributes = Registry.get( 'dom' ).extract_attributes( html, options )
+			attributes = Registry::get( 'dom' ).extract_attributes( html, options )
 			urls = [ ]
 
-			options.each do |tag_name, attribute_name|
-				attributes[ tag_name ].each do |_, tag|
+			options.each do | tag_name, attribute_name |
+				attributes[ tag_name ].each do | _, tag |
 					urls.push( tag[ attribute_name ])
 				end
 			end

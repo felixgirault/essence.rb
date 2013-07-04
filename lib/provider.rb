@@ -55,7 +55,7 @@ module Essence
 		#
 		#
 
-		def embed( url, options )
+		def _embed( url, options )
 
 			raise NotImplementedError.new
 		end

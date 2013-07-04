@@ -17,7 +17,6 @@ module Essence
 
 		def initialize( config = { })
 
-			@providers = { }
 			@config = {
 				'Dailymotion' => {
 					:class => 'OEmbed::Dailymotion',
@@ -48,7 +47,7 @@ module Essence
 
 		def has_provider?( url )
 
-			@config.each do |options|
+			@config.each do | options |
 				if ( url =~ options[ :pattern ])
 					return true
 				end
@@ -67,7 +66,7 @@ module Essence
 
 			providers = [ ]
 
-			@config.each do |name, options|
+			@config.each do | name, options |
 				if ( url =~ options[ :pattern ])
 					providers.push( self._provider( name, options ))
 				end
@@ -76,7 +75,7 @@ module Essence
 			providers
 		end
 
-
+	protected
 
 		#
 		#	Lazy loads a provider given its name and configuration.
@@ -84,9 +83,10 @@ module Essence
 
 		def _provider( name, options )
 
-			@providers ||= { }
-			@providers[ name ] ||= (
-				Object::const_get( name ).new
+			@_provider ||= { }
+			@_provider[ name ] ||= (
+
+				Object::const_get( name ).new( options )
 			)
 		end
 	end
