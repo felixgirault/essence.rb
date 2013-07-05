@@ -3,6 +3,9 @@
 #	LICENCE FreeBSD License (http://opensource.org/licenses/BSD-2-Clause)
 #
 
+require 'json'
+require 'xmlsimple'
+
 module Essence
 module Provider
 
@@ -96,8 +99,8 @@ module Provider
 			))
 
 			data = case format
-				when JSON then self._parse_json( response )
-				when XML then self._parse_xml( response )
+				when JSON then JSON.parse( response )
+				when XML then XmlSimple.xml_in( response )
 
 				else raise Error.new( 'Unsupported format.' )
 			end
@@ -124,7 +127,16 @@ module Provider
 
 		def _complete_endpoint( endpoint, options )
 
-			endpoint
+			if ( !options.empty?( )) {
+				params = { } # intersection
+
+				if ( !params.empty?( )) {
+					endpoint << ( endpoint.index( '?' )) === nil ) ? '?' : '&'
+					endpoint << params.to_s
+				}
+			}
+
+			return endpoint
 		end
 	end
 

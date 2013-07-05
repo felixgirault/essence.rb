@@ -16,7 +16,7 @@ module Provider
 		#
 		#
 
-		def initialize( options = [ ])
+		def initialize( options = { })
 
 			super
 		end
