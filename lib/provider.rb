@@ -26,14 +26,14 @@ module Essence
 		#
 		#
 
-		def embed( url, options = { }) {
+		def embed( url, options = { })
 
 			url = self._prepare( url )
 			media = self._embed( url, options )
 
-			if ( media && !media.get( 'url' )) {
-				media->set( 'url', url )
-			}
+			if ( media && media.get( 'url' ).empty? )
+				media.set( 'url', url )
+			end
 
 			media
 		end
@@ -44,7 +44,7 @@ module Essence
 		#
 		#
 
-		def _prepare( url ) {
+		def _prepare( url )
 
 			url.strip( )
 		end
@@ -57,7 +57,7 @@ module Essence
 
 		def _embed( url, options )
 
-			raise NotImplementedError.new
+			raise NotImplementedError.new( )
 		end
 	end
 

@@ -9,7 +9,7 @@ module Essence
 	#
 	#
 
-	class DOMParser
+	class DomParser
 
 		#
 		#

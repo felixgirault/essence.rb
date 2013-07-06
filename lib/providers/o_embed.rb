@@ -7,7 +7,7 @@ require 'json'
 require 'xmlsimple'
 
 module Essence
-module Provider
+module Providers
 
 	#
 	#
@@ -105,18 +105,7 @@ module Provider
 				else raise Error.new( 'Unsupported format.' )
 			end
 
-			return Media.new(
-				Set::reindex( data, {
-					'author_name' => 'authorName',
-					'author_url' => 'authorUrl',
-					'provider_name' => 'providerName',
-					'provider_url' => 'providerUrl',
-					'cache_age' => 'cacheAge',
-					'thumbnail_url' => 'thumbnailUrl',
-					'thumbnail_width' => 'thumbnailWidth',
-					'thumbnail_height' => 'thumbnailHeight',
-				})
-			)
+			return Media.new( data )
 		end
 
 
@@ -140,5 +129,5 @@ module Provider
 		end
 	end
 
-end # Provider
+end # Providers
 end # Essence

@@ -19,13 +19,14 @@ module Essence
 
 		def initialize( providers = { }, options = { })
 
-			@collection = ProviderCollection.new( providers )
+			@collection = providers.is_a?( ProviderCollection )
+				? providers
+				: ProviderCollection.new( providers )
+
 			@options = {
 				:url_pattern => /(?<url>(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'"\.,<>?«»“”‘’]))/,
 				:property_pattern => /%(?<property>[\s\S]+?)%/
-			}
-
-			@options.merge( options )
+			}.merge( options )
 		end
 
 
@@ -50,12 +51,10 @@ module Essence
 				embeddable = [ ]
 
 				urls.each do | url |
-					if ( @collection.has_provider?( url ))
-						embeddable.push( url ) unless embeddable.include?( url )
-					end
+					embeddable.push( url ) if @collection.has_provider?( url )
 				end
 
-				embeddable
+				embeddable.uniq
 			)
 		end
 

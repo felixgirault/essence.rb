@@ -11,11 +11,15 @@ module Essence
 
 	class Media
 
+		attr_reader :properties
+
+
+
 		#
 		#
 		#
 
-		def initialize( properties = [ ])
+		def initialize( properties = { })
 
 			@properties = {
 				# OEmbed type
@@ -34,31 +38,31 @@ module Essence
 				'description' => '',
 
 				# OEmbed author_name
-				'authorName' => '',
+				'author_name' => '',
 
 				# OEmbed author_url
-				'authorUrl' => '',
+				'author_url' => '',
 
 				# OEmbed provider_name
 				# OG site_name
-				'providerName' => '',
+				'provider_name' => '',
 
 				# OEmbed provider_url
-				'providerUrl' => '',
+				'provider_url' => '',
 
 				# OEmbed cache_age
-				'cacheAge' => '',
+				'cache_age' => '',
 
 				# OEmbed thumbnail_url
 				# OG image
 				# OG image:url
-				'thumbnailUrl' => '',
+				'thumbnail_url' => '',
 
 				# OEmbed thumbnail_width
-				'thumbnailWidth' => '',
+				'thumbnail_width' => '',
 
 				# OEmbed thumbnail_height
-				'thumbnailHeight' => '',
+				'thumbnail_height' => '',
 
 				# OEmbed html
 				'html' => '',

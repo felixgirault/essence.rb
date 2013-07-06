@@ -4,22 +4,13 @@
 #
 
 module Essence
-module Provider
+module Providers
 
 	#
 	#
 	#
 
 	class OpenGraph < Provider
-
-		#
-		#
-		#
-
-		def initialize( options = { })
-
-			super
-		end
 
 	protected
 
@@ -42,15 +33,15 @@ module Provider
 					'og:type' => 'type',
 					'og:title' => 'title',
 					'og:description' => 'description',
-					'og:site_name' => 'providerName',
-					'og:image' => 'thumbnailUrl',
-					'og:image:url' => 'thumbnailUrl',
+					'og:site_name' => 'provider_name',
+					'og:image' => 'thumbnail_url',
+					'og:image:url' => 'thumbnail_url',
 					'og:image:width' => 'width',
 					'og:image:height' => 'height',
 					'og:video:width' => 'width',
 					'og:video:height' => 'height',
 					'og:url' => 'url'
-				))
+				})
 			)
 		end
 
@@ -83,7 +74,7 @@ module Provider
 				end
 
 				if ( !og.include?( 'html' ))
-					og['html'] = self._build_html( og, url )
+					og['html'] = self._build_HTML( og, url )
 				end
 
 				og
@@ -96,22 +87,22 @@ module Provider
 		#	Builds an HTML code from OpenGraph properties.
 		#
 
-		def _build_html( og, url )
+		def _build_HTML( og, url )
 
 			title = og['og:title'] || ''
 			html = ''
 
 			if ( og.include?( 'og:video' ))
-				html = '<iframe src="%{url}" alt="%{alt}" width="%{width}" height="%{height}" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>' % {
+				html = '<iframe src="%{url}" alt="%{title}" width="%{width}" height="%{height}" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>' % {
 					'url' => og['og:video'],
-					'alt' => title,
+					'title' => title,
 					'width' => og['og:video:width'] || 560,
 					'height' => og['og:video:height'] || 315
 				}
 			else
-				html = '<a href="%{url}" alt="%{text}">%{text}</a>' % {
+				html = '<a href="%{url}" alt="%{title}">%{title}</a>' % {
 					'url' => og['og:url'] || url,
-					'text' => title
+					'title' => title
 				}
 			end
 
@@ -119,5 +110,5 @@ module Provider
 		end
 	end
 
-end # Provider
+end # Providers
 end # Essence
