@@ -35,7 +35,7 @@ module Essence
 					:pattern => /youtube\.com|youtu\.be/i,
 					:endpoint => 'http://www.youtube.com/oembed?format=json&url=%s',
 					:format => 'json'
-				},
+				}
 			}.merge( config )
 		end
 

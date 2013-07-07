@@ -22,10 +22,8 @@ module Providers
 
 			og = self._extract_informations( url )
 
-			if ( og.empty? )
-				raise Error.new(
-					'Unable to extract OpenGraph data.'
-				)
+			if og.empty?
+				raise Error.new( 'Unable to extract OpenGraph data.' )
 			end
 
 			return Media.new(
@@ -68,12 +66,12 @@ module Providers
 				og = { }
 
 				attributes['meta'].each do | meta |
-					if ( og.include?( meta['property']))
+					if og.include?( meta['property'])
 						og[ meta['property']] = meta['content']
 					end
 				end
 
-				if ( !og.include?( 'html' ))
+				if !og.include?( 'html' )
 					og['html'] = self._build_HTML( og, url )
 				end
 
@@ -92,7 +90,7 @@ module Providers
 			title = og['og:title'] || ''
 			html = ''
 
-			if ( og.include?( 'og:video' ))
+			if og.include?( 'og:video' )
 				html = '<iframe src="%{url}" alt="%{title}" width="%{width}" height="%{height}" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe>' % {
 					'url' => og['og:video'],
 					'title' => title,

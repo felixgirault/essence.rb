@@ -127,8 +127,8 @@ module Essence
 				media = self.embed( matches[ :url ], options )
 				replacement = ''
 
-				if ( media.is_a?( Media ))
-					if ( template.empty? )
+				if media.is_a?( Media )
+					if template.empty?
 						replacement = media.get( 'html' )
 					else
 						replacement = template.gsub( @options[ :property_pattern ]) do | matches |

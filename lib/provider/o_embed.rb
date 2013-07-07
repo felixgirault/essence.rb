@@ -7,7 +7,7 @@ require 'json'
 require 'xmlsimple'
 
 module Essence
-module Providers
+module Provider
 
 	#
 	#
@@ -42,12 +42,12 @@ module Providers
 		#	Strips arguments and anchors from the given URL.
 		#
 
-		def _prepare( url ) {
+		def _prepare( url )
 
 			url = super
 
-			if ( !self._strip( url, '?' ))
-				self._strip( url, '#' )
+			if !self._strip!( url, '?' )
+				self._strip!( url, '#' )
 			end
 
 			url
@@ -59,12 +59,12 @@ module Providers
 		#	Strips the end of a string after a delimiter.
 		#
 
-		def _strip( url, delimiter ) {
+		def _strip!( url, delimiter )
 
-			index = url.index( delimiter )
-			found = ( index !== nil )
+			index = url.rindex( delimiter )
+			found = !index.is_nil?
 
-			if ( found )
+			if found
 				url = url[ 0..index ]
 			end
 
@@ -77,7 +77,7 @@ module Providers
 		#
 		#
 
-		def _embed( url, options ) {
+		def _embed( url, options )
 
 			self._embed_endpoint(
 				@options[ :endpoint ] % url,
@@ -92,17 +92,21 @@ module Providers
 		#
 		#
 
-		def _embed_endpoint( )
+		def _embed_endpoint( endpoint, format, options )
 
 			response = HTTP.get( URI(
 				self._completeEndpoint( endpoint, options )
 			))
 
 			data = case format
-				when JSON then JSON.parse( response )
-				when XML then XmlSimple.xml_in( response )
+				when JSON
+					then JSON.parse( response )
 
-				else raise Error.new( 'Unsupported format.' )
+				when XML
+					then XmlSimple.xml_in( response )
+
+				else
+					raise Error.new( 'Unsupported format.' )
 			end
 
 			return Media.new( data )
@@ -116,18 +120,18 @@ module Providers
 
 		def _complete_endpoint( endpoint, options )
 
-			if ( !options.empty?( )) {
+			if !options.empty?
 				params = { } # intersection
 
-				if ( !params.empty?( )) {
-					endpoint << ( endpoint.index( '?' )) === nil ) ? '?' : '&'
+				if !params.empty?
+					endpoint << endpoint.index( '?' ).is_nil? ? '?' : '&'
 					endpoint << params.to_s
-				}
+				end
 			}
 
 			return endpoint
 		end
 	end
 
-end # Providers
+end # Provider
 end # Essence

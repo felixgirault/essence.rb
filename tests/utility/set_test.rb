@@ -4,9 +4,10 @@
 #
 
 require 'test/unit'
-require_relative '../../lib/utilities/set'
+require_relative '../../lib/utility/set'
 
 module Essence
+module Utility
 
 	#
 	#
@@ -20,7 +21,7 @@ module Essence
 
 		def test_reindex
 
-			data = Essence::Utilities::Set::reindex(
+			data = Essence::Utility::Set::reindex(
 				{ 'one' => 'value' },
 				{ 'one' => 'two' }
 			)
@@ -32,4 +33,5 @@ module Essence
 		end
 	end
 
+end # Utility
 end # Essence

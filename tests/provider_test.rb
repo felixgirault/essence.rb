@@ -41,7 +41,7 @@ module Essence
 
 		def test_embed
 
-			provider = ConcreteProvider.new( )
+			provider = ConcreteProvider.new
 			expected = Essence::Media.new({
 				'title' => 'Title',
 				'url' => 'http://foo.bar'

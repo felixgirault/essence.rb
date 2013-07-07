@@ -57,7 +57,7 @@ module Essence
 
 		def _embed( url, options )
 
-			raise NotImplementedError.new( )
+			raise NotImplementedError.new
 		end
 	end
 
