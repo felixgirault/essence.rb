@@ -22,6 +22,7 @@ module Essence
 		def initialize( properties = { })
 
 			@properties = {
+
 				# OEmbed type
 				# OG type
 				'type' => '',
@@ -113,6 +114,28 @@ module Essence
 		#
 
 		def set( property, value )
+
+			@properties[ property ] = value
+		end
+
+
+
+		#
+		#
+		#
+
+		def []( property )
+
+			@properties[ property ]
+		end
+
+
+
+		#
+		#
+		#
+
+		def []=( property, value )
 
 			@properties[ property ] = value
 		end

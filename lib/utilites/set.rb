@@ -4,7 +4,7 @@
 #
 
 module Essence
-module Utility
+module Utilities
 
 	#
 	#	An utility class to manipulate data sets.

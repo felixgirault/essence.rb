@@ -17,26 +17,23 @@ module Essence
 
 		def initialize( config = { })
 
-			@config = {
-				'Dailymotion' => {
-					:class => 'OEmbed::Dailymotion',
-					:pattern => /dailymotion\.com/i,
-					:endpoint => 'http://www.dailymotion.com/services/oembed?format=json&url=%s',
-					:format => 'json'
-				},
-				'Vimeo' => {
-					:class => 'OEmbed::Vimeo',
-					:pattern => /vimeo\.com/i,
-					:endpoint => 'http://vimeo.com/api/oembed.json?url=%s',
-					:format => 'json'
-				},
-				'Youtube' => {
-					:class => 'OEmbed',
-					:pattern => /youtube\.com|youtu\.be/i,
-					:endpoint => 'http://www.youtube.com/oembed?format=json&url=%s',
-					:format => 'json'
-				}
-			}.merge( config )
+			@config = case
+				when config.is_a?( String )	self.load( @config )
+				when config.is_a?( Hash )	config
+				else { }
+			end
+		end
+
+
+
+		#
+		#
+		#
+
+		def load( filename )
+
+			proc = Proc.new
+			eval( File.read( filename ), proc.binding, filename )
 		end
 
 

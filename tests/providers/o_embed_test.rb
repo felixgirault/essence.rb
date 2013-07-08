@@ -7,7 +7,7 @@ require 'test/unit'
 require_relative '../../lib/provider/o_embed'
 
 module Essence
-module Provider
+module Providers
 
 	#
 	#
@@ -32,13 +32,13 @@ module Provider
 
 		def test_prepare
 
-			media = @o_embed.embed( 'valid#anchor' )
+			media = Essence::Providers::OEmbed::embed( 'valid#anchor' )
 			assert_equal( 'valid', media.url )
 
-			media = @o_embed.embed( 'valid?argument=value' )
+			media = Essence::Providers::OEmbed::embed( 'valid?argument=value' )
 			assert_equal( 'valid', media.url )
 
-			media = @o_embed.embed( 'valid?argument=value#anchor' )
+			media = Essence::Providers::OEmbed::embed( 'valid?argument=value#anchor' )
 			assert_equal( 'valid', media.url )
 		end
 	end

@@ -96,7 +96,7 @@ module Essence
 
 			medias = [ ]
 
-			urls.each do |url|
+			urls.each do | url |
 				medias[ url ] = self.embed( url, options )
 			end
 

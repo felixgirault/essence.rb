@@ -5,5 +5,5 @@
 
 require_relative 'media_test'
 require_relative 'provider_test'
-require_relative 'provider/o_embed_test'
-require_relative 'provider/open_graph_test'
+require_relative 'providers/o_embed_test'
+require_relative 'providers/open_graph_test'

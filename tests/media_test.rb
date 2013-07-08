@@ -44,6 +44,8 @@ module Essence
 
 			assert_equal( 'value', @media.get( 'property' ))
 			assert_equal( 'default', @media.get( 'other_property', 'default' ))
+
+			assert_equal( 'value', @media[ 'property' ])
 		end
 
 
@@ -55,8 +57,10 @@ module Essence
 		def test_set
 
 			@media.set( 'other_property', 'value' )
-
 			assert_equal( 'value', @media.get( 'other_property' ))
+
+			@media[ 'third_property' ] = 'value'
+			assert_equal( 'value', @media.get( 'third_property' ))
 		end
 	end
 

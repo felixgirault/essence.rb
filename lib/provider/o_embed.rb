@@ -7,7 +7,7 @@ require 'json'
 require 'xmlsimple'
 
 module Essence
-module Provider
+module Providers
 
 	#
 	#
