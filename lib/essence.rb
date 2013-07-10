@@ -73,10 +73,9 @@ module Essence
 			@embed ||= { }
 			@embed[ local_variables ] ||= (
 
-				providers = @collection.providers( url )
 				media = nil
 
-				providers.each do | provider |
+				@collection.providers( url ) do | provider |
 					if ( media = provider.embed( url, options ))
 						break;
 					end
@@ -121,23 +120,18 @@ module Essence
 		#	his idea (https://github.com/felixgirault/essence/issues/4).
 		#
 
-		def replace( text, template = '', options = [ ])
+		def replace( text, callback, options = [ ])
 
 			text.gsub( @options[ :url_pattern ]) do | matches |
 				media = self.embed( matches[ :url ], options )
-				replacement = ''
 
-				if media.is_a?( Media )
-					if template.empty?
-						replacement = media.get( 'html' )
-					else
-						replacement = template.gsub( @options[ :property_pattern ]) do | matches |
-							media.get( matches[ :property ])
-						end
-					end
+				if media.is_nil?
+					return matches[ :url ]
 				end
 
-				replacement
+				return callback.respond_to?( :call )
+					? callback.call( media )
+					: media.get( 'html' )
 			end
 		end
 

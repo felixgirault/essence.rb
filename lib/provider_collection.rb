@@ -61,15 +61,11 @@ module Essence
 
 		def providers( url )
 
-			providers = [ ]
-
 			@config.each do | name, options |
 				if ( url =~ options[ :pattern ])
-					providers.push( self._provider( name, options ))
+					yield self._provider( name, options )
 				end
 			end
-
-			providers
 		end
 
 	protected
